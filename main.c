@@ -25,5 +25,3 @@ int print_hex(va_list ap, params_t *params)
 	{
 		*--str = 'x';
 		*--str = '0';
-	}
-	params->unsign = 1;

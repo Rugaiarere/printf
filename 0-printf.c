@@ -18,7 +18,7 @@ int _printf(const char *format, ...)
 
 	va_start(op, format);
 
-	while (*format != '\0')//_printf("% ")
+	while (*format != '\0')
 	{
 		if (*format != '%')
 		{

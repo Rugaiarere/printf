@@ -1,5 +1,4 @@
 #include "main.h"
-#include <string.h>
 
 /**
 * _printf - printf function
@@ -28,7 +27,9 @@ int _printf(const char *format, ...)
 		else
 		{
 			format++;
-			if (*format == 'c')
+			if (*format == '\n')
+				break;
+			else if (*format == 'c')
 			{
 				char c = va_arg(op, int);
 

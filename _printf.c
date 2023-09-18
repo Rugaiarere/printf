@@ -27,11 +27,7 @@ int _printf(const char *format, ...)
 		else
 		{
 			format++;
-			if (*format == '\0')
-			{
-				return (-1);
-			}
-			else if (*format == 'c')
+			if (*format == 'c')
 			{
 				char c = va_arg(op, int);
 

@@ -13,12 +13,12 @@ int _printf(const char *format, ...)
 	va_list op;
 
 	i = 0;
-	if (format == NULL)
+	if (format == NULL || *format == '\0')
 		return (-1);
 
 	va_start(op, format);
 
-	while (*format != '\0')//_printf("% ")
+	while (*format != '\0')
 	{
 		if (*format != '%')
 		{
@@ -43,6 +43,8 @@ int _printf(const char *format, ...)
 			}
 			else if (*format == '%')
 				i += write(1, format, 1);
+			else
+				return (0);
 
 		}
 		format++;

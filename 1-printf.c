@@ -12,10 +12,9 @@
  * Return: 0 if successful and -1 on error
  */
 
-int _printf(const char *format, ...);
 int _printf(const char *format, ...)
 {
-	int num_of_characters, _str_length;
+	unsigned int num_of_characters, _str_length;
 	int number;
 	va_list list_of_args;
 	char num_str[20], character;
@@ -54,7 +53,7 @@ int _printf(const char *format, ...)
 
 				if (str == NULL)
 				{
-					write(1, "(nail)", 6);
+					write(1, "(null)", 6);
 					num_of_characters += 6;
 				}
 				else

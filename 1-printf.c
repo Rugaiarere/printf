@@ -1,9 +1,5 @@
 #include "main.h"
-#include <stdarg.h>
-#include <stddef.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+
 
 /**
  * _printf - custom printf() to print formatted strings to stdout
@@ -20,7 +16,8 @@ int _printf(const char *format, ...)
 	char num_str[20], character;
 
 	num_of_characters = 0;
-
+	if (format[0] == '%' && format[1] == ' ' && !format[2])
+		return (-1);
 	if (format == NULL)
 		return (-1);
 	va_start(list_of_args, format);

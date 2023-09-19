@@ -47,3 +47,10 @@ int _printf(const char *format, ...)
 va_end(op);
 return (i);
 }
+int main()
+{
+	printf("string [%s]\n", "NULL");
+	_printf("string [%s]\n", "NULL");
+return (0);
+}
+

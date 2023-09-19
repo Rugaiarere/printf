@@ -11,8 +11,9 @@
 int _printf(const char *format, ...)
 {
 	unsigned int num_of_characters, _str_length;
+	int number;
 	va_list list_of_args;
-	char character;
+	char num_str[20], character;
 
 	num_of_characters = 0;
 	if (format[0] == '%' && format[1] == ' ' && !format[2])
@@ -30,8 +31,6 @@ int _printf(const char *format, ...)
 		else
 		{
 			format++;
-			if (*format == ' ')
-				break;
 			if (*format == '%')
 			{
 				write(1, format, 1);
@@ -63,10 +62,24 @@ int _printf(const char *format, ...)
 					}
 					num_of_characters += _str_length;
 				}
-		}
+			}
+			else if (*format == 'd' || *format == 'i')
+			{
+				number = va_arg(list_of_args, int);
+				snprintf(num_str, sizeof(num_str), "%d", number);
+				write(1, num_str, strlen(num_str));
+				num_of_characters += strlen(num_str);
+			}
+			else
+			{
+				char err_msg[7];
+				int err_msg_len = snprintf(err_msg, sizeof(err_msg), "%%%c", *format);
+
+				write(1, err_msg, err_msg_len);
+				num_of_characters += err_msg_len;
+			}
 		}
 		format++;
-	}
-		va_end(list_of_args);
+	} va_end(list_of_args);
 	return (num_of_characters);
 }

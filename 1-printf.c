@@ -54,7 +54,7 @@ int _printf(const char *format, ...)
 
 				if (str == NULL)
 				{
-					write(1, "(null)", 6);
+					write(1, "(nail)", 6);
 					num_of_characters += 6;
 				}
 				else

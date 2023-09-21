@@ -1,5 +1,9 @@
 #include "main.h"
-
+#include <stdarg.h>
+#include <stddef.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
 
 /**
  * _printf - custom printf() to print formatted strings to stdout
@@ -8,20 +12,20 @@
  * Return: 0 if successful and -1 on error
  */
 
+int _printf(const char *format, ...);
 int _printf(const char *format, ...)
 {
-	unsigned int num_of_characters, _str_length;
+	int num_of_characters, _str_length;
 	int number;
 	va_list list_of_args;
 	char num_str[20], character;
 
 	num_of_characters = 0;
-	if (format[0] == '%' && format[1] == ' ' && !format[2])
-		return (-1);
-	if (!format || (format[0] == '%' && !format[1]))
+
+	if (format == NULL)
 		return (-1);
 	va_start(list_of_args, format);
-	while (*format)
+	while (*format && *format != '\0')
 	{
 		if (*format != '%')
 		{
@@ -31,6 +35,8 @@ int _printf(const char *format, ...)
 		else
 		{
 			format++;
+			if (*format == '\0')
+				break;
 			if (*format == '%')
 			{
 				write(1, format, 1);
@@ -69,6 +75,35 @@ int _printf(const char *format, ...)
 				snprintf(num_str, sizeof(num_str), "%d", number);
 				write(1, num_str, strlen(num_str));
 				num_of_characters += strlen(num_str);
+			}
+			else if (*format == 'b')
+			{
+				int num = va_arg(list_of_args, int);
+				unsigned int mask = 1 << (sizeof(int) * 8 - 1);
+				int print_digit;
+				int num_of_digits;
+
+				print_digit = num_of_digits = 0;
+				while (mask)
+				{
+					if (num & mask)
+					{
+						write(1, "1", 1);
+						print_digit = 1;
+					}
+					else if (print_digit)
+					{
+						write(1, "0", 1);
+					}
+					mask >>= 1;
+					num_of_characters++;
+					num_of_digits++;
+				}
+				if (num_of_digits == 0)
+				{
+					write(1, "0", 1);
+					num_of_characters++;
+				}
 			}
 			else
 			{

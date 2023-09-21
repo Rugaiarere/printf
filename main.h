@@ -13,4 +13,5 @@ int _putchar(char c);
 int _printf(const char *format, ...);
 char character_handler(char);
 int string_handler(char *);
+int print_binary(unsigned int n);
 #endif

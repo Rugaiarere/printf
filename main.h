@@ -16,7 +16,7 @@ char character_handler(char);
 int string_handler(char *);
 int print_binary(unsigned int n);
 
-
+int parse_format(const char *format, va_list args);
 int print_string(const char *str);
 int print_hex(int value);
 int print_integer(int num);

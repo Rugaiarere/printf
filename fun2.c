@@ -1,105 +1,102 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "main.h"
+
+/**
+ * print_char - Prints a character.
+ * @c: The character to print.
+ *
+ * Return: 1 (the number of characters printed).
+ */
+int print_char(int c)
+{
+	_putchar(c);
+	return (1);
+}
+
+/**
+ * print_string - Prints a string.
+ * @str: The string to print.
+ *
+ * Return: The number of characters printed.
+ */
+int print_string(char *str)
+{
+	int count = 0;
+
+	if (str == NULL)
+		str = "(null)";
+
+	while (*str)
+	{
+		_putchar(*str);
+		str++;
+		count++;
+	}
+
+	return (count);
+}
+
+/**
+ * print_int - Prints an integer.
+ * @n: The integer to print.
+ *
+ * Return: The number of characters printed.
+ */
+int print_int(int n)
+{
+	int count = 0;
+
+	if (n < 0)
+	{
+		_putchar('-');
+		count++;
+		n = -n;
+	}
+
+	if (n / 10)
+		count += print_int(n / 10);
+
+	_putchar((n % 10) + '0');
+	count++;
+
+	return (count);
+}
+
+/**
+ * print_unsigned - Prints an unsigned integer.
+ * @n: The unsigned integer to print.
+ *
+ * Return: The number of characters printed.
+ */
+int print_unsigned(unsigned int n)
+{
+	int count = 0;
+
+	if (n / 10)
+		count += print_unsigned(n / 10);
+
+	_putchar((n % 10) + '0');
+	count++;
+
+	return (count);
+}
+
 /**
  * print_octal - Prints an unsigned integer in octal format.
- * @num: The unsigned integer to print in octal.
+ * @n: The unsigned integer to print.
  *
  * Return: The number of characters printed.
  */
-int print_octal(unsigned int num)
+int print_octal(unsigned int n)
 {
 	int count = 0;
 
-	if (num == 0)
-	{
-		_putchar('0');
-		count++;
-	}
-	else
-	{
-		count += print_octal_recursive(num);
-	}
+	if (n / 8)
+		count += print_octal(n / 8);
 
-	return (count);
-}
-
-/**
-i * print_unsigned_recursive - Recursively prints an unsigned integer.
- * @num: The unsigned integer to print.
- *
- * Return: The number of characters printed.
- */
-int print_unsigned_recursive(unsigned int num)
-{
-	int count = 0;
-
-	if (num != 0)
-	{
-		count += print_unsigned_recursive(num / 10);
-		_putchar((num % 10) + '0');
-		count++;
-	}
-
-	return (count);
-}
-
-/**
- * print_octal_recursive - Recursively prints an unsigned integer in octal.
- * @num: The unsigned integer to print in octal.
- *
- * Return: The number of characters printed.
- */
-int print_octal_recursive(unsigned int num)
-{
-	int count = 0;
-
-	if (num != 0)
-	{
-		count += print_octal_recursive(num / 8);
-		_putchar((num % 8) + '0');
-		count++;
-	}
-
-	return (count);
-}
-
-/**
- * print_binary - Prints an unsigned integer in binary format.
- * @num: The unsigned integer to print in binary.
- * Return: The number of characters printed.
- */
-int print_binary(unsigned int num)
-{
-	int count = 0;
-
-	if (num == 0)
-	{
-		_putchar('0');
-		count++;
-	}
-	else
-	{
-		count += print_binary_recursive(num);
-	}
-
-	return (count);
-}
-
-/**
- * print_pointer - Prints a pointer address in hexadecimal format.
- * @ptr: The pointer to print.
- * Return: The number of characters printed.
- */
-int print_pointer(void *ptr)
-{
-	int count = 0;
-	unsigned long int p = (unsigned long int)ptr;
-
-	_putchar('0');
-	_putchar('x');
-	count += 2;
-	count += print_hexadecimal(p, 0);
+	_putchar((n % 8) + '0');
+	count++;
 
 	return (count);
 }

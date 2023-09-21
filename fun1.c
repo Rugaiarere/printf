@@ -1,141 +1,84 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "main.h"
-/**
- * print_string - Prints a string and handles non-printable characters.
- * @str: The string to print.
- *
- * Return: The number of characters printed.
- */
-int print_string(const char *str)
-{
-	int count = 0;
 
-	while (*str)
+/**
+ * _printf - Produces output according to a format.
+ * @format: A character string containing format specifiers.
+ *
+ * Return: The number of characters printed (excluding the null byte).
+ */
+int _printf(const char *format, ...)
+{
+	va_list args;
+	int count = 0;
+	int i = 0;
+
+	if (format == NULL)
+		return (-1);
+
+	va_start(args, format);
+
+	while (format && format[i])
 	{
-		if (*str >= 32 && *str < 127)
+		if (format[i] != '%')
 		{
-			_putchar(*str);
+			_putchar(format[i]);
 			count++;
 		}
 		else
 		{
-			_putchar('\\');
-			_putchar('x');
-			if (*str < 16)
+			i++;
+			if (format[i] == '\0')
+				break;
+			switch (format[i])
 			{
-				_putchar('0');
-				count++;
+				case 'c':
+					count += print_char(va_arg(args, int));
+					break;
+				case 's':
+					count += print_string(va_arg(args, char *));
+					break;
+				case 'd':
+				case 'i':
+					count += print_int(va_arg(args, int));
+					break;
+				case 'u':
+					count += print_unsigned(va_arg(args, unsigned int));
+					break;
+				case 'o':
+					count += print_octal(va_arg(args, unsigned int));
+					break;
+				case 'x':
+					count += print_hex(va_arg(args, unsigned int), 0);
+					break;
+				case 'X':
+					count += print_hex(va_arg(args, unsigned int), 1);
+					break;
+				case 'p':
+					count += print_ptr(va_arg(args, void *));
+					break;
+				case '%':
+					_putchar('%');
+					count++;
+					break;
+				case 'b':
+					count += print_binary(va_arg(args, unsigned int));
+					break;
+				case 'S':
+					count += print_custom_string(va_arg(args, char *));
+					break;
+
+				default:
+					_putchar('%');
+					_putchar(format[i]);
+					count += 2;
 			}
-			count += 2;
-			count += print_hex(*str);
 		}
-		str++;
+		i++;
 	}
 
-	return (count);
-}
-
-/**
- * print_hex - Prints a hexadecimal value.
- * @value: The value to print in hexadecimal.
- *
- * Return: The number of characters printed.
- */
-int print_hex(int value)
-{
-	int count = 0;
-	char hex_chars[] = "0123456789ABCDEF";
-
-	if (value < 16)
-	{
-		_putchar(hex_chars[value]);
-		count++;
-	}
-	else
-	{
-		count += print_hex(value / 16);
-		_putchar(hex_chars[value % 16]);
-		count++;
-	}
-
-	return (count);
-}
-
-/**
- * print_integer - Prints a signed integer.
- * @num: The integer to print.
- *
- * Return: The number of characters printed.
- */
-int print_integer(int num)
-{
-	int count = 0;
-
-	if (num < 0)
-	{
-		_putchar('-');
-		count++;
-		num = -num;
-	}
-
-	count += print_unsigned((unsigned int)num);
-
-	return (count);
-}
-
-/**
- * print_unsigned - Prints an unsigned integer.
- * @num: The unsigned integer to print.
- *
- * Return: The number of characters printed.
- */
-int print_unsigned(unsigned int num)
-{
-	int count = 0;
-
-	if (num == 0)
-	{
-		_putchar('0');
-		count++;
-	}
-	else
-	{
-		count += print_unsigned_recursive(num);
-	}
-
-	return (count);
-}
-
-/**
- * print_custom_string - Prints a custom string with non-printable characters.
- * @s: The string to print.
- * Return: The number of characters printed.
- */
-int print_custom_string(const char *s)
-{
-	int count = 0;
-
-	while (*s)
-	{
-		if (*s >= 32 && *s < 127)
-		{
-			_putchar(*s);
-			count++;
-		}
-		else
-		{
-			_putchar('\\');
-			_putchar('x');
-			if (*s < 16)
-			{
-				_putchar('0');
-				count++;
-			}
-			count += print_hex(*s);
-		}
-		s++;
-	}
+	va_end(args);
 
 	return (count);
 }
